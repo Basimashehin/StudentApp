@@ -1,0 +1,85 @@
+{%extends 'base.html'%}
+{%block body_block%}
+<div class="container-fluid" style="background-color: #F0F8FF">
+    <div class="row">
+        <div class="col-4"></div>
+        <div class="col-4">
+        {%if messages%}
+        {%for m in messages%}
+          {% if m.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>{{m}}</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endif %}
+             {% if m.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong>{{m}}</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endif %}
+
+        {%endfor%}
+        {%endif%}
+        </div>
+        <div class="col-4"></div>
+    </div>
+    <h1>COURSES</h1>
+    <div class="row">
+        <div class="col-2"></div>
+        <div class="col-8">
+            {%if course%}
+            <table class="table table-success table-striped-columns">
+                <tr>
+                    <th>course Name</th>
+                    <th>Description</th>
+                    <th>Status</th>
+                </tr>
+                 {%for c in course%}
+                <tr>
+                    <td>{{c.course_name}}</td>
+                    <td>{{c.description}}</td>
+                    <td>{% if c.is_active %}
+                         Available
+                         {% else %}
+                         Not Available
+                         {% endif %}
+                    </td>
+                </tr>
+                {%endfor%}
+            </table>
+           {%else%}
+            <h2 class="text-danger">No Courses</h2>
+            {%endif%}
+        </div>
+        <div class="col-2"></div>
+    </div>
+    <h1>STUDENTS</h1>
+    <div class="row">
+        <div class="col-2"></div>
+        <div class="col-8">
+            {%if student%}
+            <table class="table table-success table-striped-columns">
+                <tr>
+                    <th>Student Name</th>
+                    <th>Age</th>
+                    <th>Mobile Number</th>
+                    <th>EmailID</th>
+                </tr>
+                 {%for s in student%}
+                <tr>
+                    <td>{{s.student_name}}</td>
+                    <td>{{s.place}}</td>
+                    <td>{{s.mobile_number}}</td>
+                    <td>{{s.email_id}}</td>
+                </tr>
+                {%endfor%}
+            </table>
+           {%else%}
+            <h2 class="text-danger">No Student</h2>
+            {%endif%}
+        </div>
+        <div class="col-2"></div>
+    </div>
+</div>
+{%endblock%}

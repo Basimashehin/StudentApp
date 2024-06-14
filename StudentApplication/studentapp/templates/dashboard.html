@@ -1,0 +1,117 @@
+{%extends 'base.html'%}
+{%block body_block%}
+<div class="container-fluid" style="background-color: #F0F8FF">
+    <div class="row">
+        <div class="col-4"></div>
+        <div class="col-4">
+        {%if messages%}
+        {%for m in messages%}
+          {% if m.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>{{m}}</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endif %}
+             {% if m.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong>{{m}}</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endif %}
+
+        {%endfor%}
+        {%endif%}
+        </div>
+        <div class="col-4"></div>
+    </div>
+
+    <div class="row mt-5">
+        <h1>Student Course Progress Dashboard</h1>
+        <div class="col-2"></div>
+        <div class="col-8 mt-4">
+            {%if progress%}
+            <table class="table table-success table-striped-columns">
+                <tr>
+                    <th>Student Name</th>
+                    <th>Course Name</th>
+                    <th>Expected Completion Date</th>
+                    <th>Actual Completion Date</th>
+                </tr>
+                 {%for p in progress%}
+                <tr>
+                    <td>{{p.student.student_name}}</td>
+                    <td>{{p.course.course_name}}</td>
+                    <td>{{p.expected_completion_date}}</td>
+                    <td>{{p.actual_completion_date}}</td>
+                </tr>
+                {%endfor%}
+            </table>
+           {%else%}
+            <h2 class="text-danger">No Reports to show</h2>
+            {%endif%}
+        </div>
+        <div class="col-2"></div>
+    </div>
+    <div class="row mt-5">
+        <h1>Performance of Students based on completion date</h1>
+        <div class="col-4 mt-4">
+                       <h4>Exceeded Expectations</h4>
+        <ul class="list-group">
+            {% for p in categorized_data.exceeded_expectations %}
+                <li class="list-group-item list-group-item-success">{{ p.student.student_name }} - {{ p.course.course_name }} (Expected: {{ p.expected_completion_date }}, Actual: {{ p.actual_completion_date }})</li>
+            {% endfor %}
+        </ul>
+        </div>
+        <div class="col-4 mt-4">
+                       <h4>As Per Expectation</h4>
+        <ul class="list-group">
+            {% for p in categorized_data.as_per_expectation %}
+                <li class="list-group-item list-group-item-info">{{ p.student.student_name }} - {{ p.course.course_name }} (Expected: {{ p.expected_completion_date }}, Actual: {{ p.actual_completion_date }})</li>
+            {% endfor %}
+        </ul>
+        </div>
+        <div class="col-4 mt-4">
+            <h4>Below Expectations</h4>
+        <ul class="list-group">
+            {% for p in categorized_data.below_expectations %}
+                <li class="list-group-item list-group-item-danger">{{ p.student.student_name }} - {{ p.course.course_name }} (Expected: {{ p.expected_completion_date }}, Actual: {{ p.actual_completion_date }})</li>
+            {% endfor %}
+        </ul>
+        </div>
+    </div>
+    <div class="row mt-5">
+     <h1>Video Watch Count Dashboard</h1>
+    <div class="col-6 mt-4">
+        <h4>Least Watched Videos</h4>
+        <ul class="list-group">
+            {% for video in categorized_videos.least_watched %}
+                <li class="list-group-item list-group-item-danger">{{ video.title }} (Views: {{ video.views }})</li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="col-6 mt-4">
+        <h4>Most Watched Videos</h4>
+        <ul class="list-group">
+            {% for video in categorized_videos.most_watched %}
+                <li class="list-group-item list-group-item-success">{{ video.title }} (Views: {{ video.views }})</li>
+            {% endfor %}
+        </ul>
+    </div>
+    </div>
+    <div class="row mt-5">
+               <h1>Video Peak Timings</h1>
+              {% for video_title, timings in video_peak_timings.items %}
+             <div class="card col-4 mt-2 mx-2 my-2 " style="width: 18rem; background-color: #A9BA9D;">
+             <h4 class="card-header">{{ video_title }}</h4>
+             <div class="card-body">
+                 <p class="card-text">Peak Day: {{ timings.peak_day }}</p>
+                 <p class="card-text">Peak Week: {{ timings.peak_week }}</p>
+              </div>
+              </div>
+             {% endfor %}
+    </div>
+</div>
+{%endblock%}
+
+
+
